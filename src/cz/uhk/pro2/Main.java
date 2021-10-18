@@ -3,6 +3,7 @@ package cz.uhk.pro2;
 import gui.MainFrame;
 import model.ChatClient;
 import model.InMemoryChatClient;
+import model.Message;
 
 public class Main {
 
@@ -10,6 +11,7 @@ public class Main {
         MainFrame mainFrame = new MainFrame(800, 600);
         mainFrame.setVisible(true);
 
+        testChat();
 
     }
 

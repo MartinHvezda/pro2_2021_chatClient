@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
            public void actionPerformed(ActionEvent e) {
                System.out.println("Button login clicked");
            }
-        }
+        });
         panelLogin.add(btnLogin);
         //konec loginu
 

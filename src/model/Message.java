@@ -7,10 +7,10 @@ public class Message {
     private String text;
     private LocalDateTime created;
 
-    public Message(String author, String text, LocalDateTime created) {
+    public Message(String author, String text) {
         this.author = author;
         this.text = text;
-        this.created = created;
+        created = LocalDateTime.now();
     }
 
     public void setAuthor(String author) {

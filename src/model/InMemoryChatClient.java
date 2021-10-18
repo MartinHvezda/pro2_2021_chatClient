@@ -10,7 +10,7 @@ public class InMemoryChatClient implements ChatClient{
 
     public InMemoryChatClient() {
         messages = new ArrayList<>();
-        loggedUser = new ArrayList<>();
+        loggedUsers = new ArrayList<>();
     }
 
     @Override
@@ -21,7 +21,7 @@ public class InMemoryChatClient implements ChatClient{
     @Override
     public void login(String userName) {
         loggedUser = userName;
-        loggedUsers = loggedUsers.add(userName);
+        loggedUsers.add(userName);
     }
 
     @Override
@@ -32,16 +32,16 @@ public class InMemoryChatClient implements ChatClient{
 
     @Override
     public void sendMessage(String text) {
-
+        messages.add(new Message(loggedUser, text));
     }
 
     @Override
     public List<String> getLoggedUsers() {
-        return null;
+        return loggedUsers;
     }
 
     @Override
-    public List<String> getMessages() {
-        return null;
+    public List<Message> getMessages() {
+        return messages;
     }
 }
