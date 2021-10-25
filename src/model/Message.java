@@ -1,6 +1,8 @@
 package model;
 
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message {
     private String author;
@@ -59,7 +61,7 @@ public class Message {
         if(author == AUTHOR_SYSTEM) {
 
         }
-        String msg = author + " ["+created+"]\n";
+        String msg = author + " ["+created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))+"]\n";
         msg += text + "\n";
         return msg;
     }

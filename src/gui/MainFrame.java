@@ -91,6 +91,9 @@ public class MainFrame extends JFrame {
         txtAreaChat.setAutoscrolls(true);
         txtAreaChat.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(txtAreaChat);
+        chatClient.addActionListenerNewMessages(e -> {
+            refreshMessages();
+        });
         panel.add(scrollPane);
 
 
@@ -118,12 +121,12 @@ public class MainFrame extends JFrame {
     }
 
     private void initLoggedUsersPanel(JPanel panel) {
-        Object[][] data = new Object[][] {
+        /*Object[][] data = new Object[][] {
                 {"1:1", "1:2"},
                 {"2:1", "2:2"},
                 {"3:1", "3:2"},
         };
-        String[] colNames = new String[] {"Column1", "Column2"};
+        String[] colNames = new String[] {"Column1", "Column2"};*/
 
         //tblLoggedUsers = new JTable(data, colNames);
         loggedUsersTabelModel = new LoggedUsersTabelModel(chatClient);
