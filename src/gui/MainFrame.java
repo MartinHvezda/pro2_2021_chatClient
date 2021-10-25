@@ -114,7 +114,6 @@ public class MainFrame extends JFrame {
                 }
                 chatClient.sendMessage(text);
                 txtInputMessage.setText("");
-                refreshMessages();
             }
         });
         panel.add(btnSend);
