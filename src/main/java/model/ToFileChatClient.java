@@ -21,6 +21,7 @@ public class ToFileChatClient implements ChatClient {
     private List<String> loggedUsers;
 
     private List<ActionListener> listenersLoggedUsersChanged = new ArrayList<>();
+    private List<ActionListener> listenersNewMessages = new ArrayList<>();
 
     private static final String MESSAGES_FILE = "./messages.json";
 
@@ -47,6 +48,7 @@ public class ToFileChatClient implements ChatClient {
         loggedUser = userName;
         loggedUsers.add(userName);
         raiseEventLoggedUsersChanged();
+        raiseEventNewMessages();
     }
 
     @Override
@@ -55,11 +57,13 @@ public class ToFileChatClient implements ChatClient {
         loggedUsers.remove(loggedUser);
         loggedUser = null;
         raiseEventLoggedUsersChanged();
+        raiseEventNewMessages();
     }
 
     @Override
     public void sendMessage(String text) {
         addMessage(new Message(loggedUser, text));
+        raiseEventNewMessages();
     }
 
     @Override
@@ -77,9 +81,20 @@ public class ToFileChatClient implements ChatClient {
         listenersLoggedUsersChanged.add(toAdd);
     }
 
+    @Override
+    public void addActionListenerNewMessages(ActionListener toAdd) {
+        listenersNewMessages.add(toAdd);
+    }
+
     private void raiseEventLoggedUsersChanged() {
         for (ActionListener al: listenersLoggedUsersChanged) {
             al.actionPerformed(new ActionEvent(this, 1, "listenersLoggedUsers"));
+        }
+    }
+
+    private void raiseEventNewMessages() {
+        for(ActionListener al: listenersNewMessages) {
+            al.actionPerformed(new ActionEvent(this, 1, "listenersNewMessages"));
         }
     }
 
