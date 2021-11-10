@@ -124,7 +124,6 @@ public class ToFileChatClient implements ChatClient {
             while((line = reader.readLine()) != null) {
                 jsonText.append(line);
             }
-
             Type targetType = new TypeToken<ArrayList<Message>>(){}.getType();
 
             messages = gson.fromJson(jsonText.toString(), targetType);

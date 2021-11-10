@@ -11,4 +11,5 @@ public interface ChatFileOperations {
 
     List<String> loadLoggedUsers();
     void writeLoggedUsersToFile(List<String> users);
+
 }
