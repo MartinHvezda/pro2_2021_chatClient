@@ -1,5 +1,9 @@
 package model;
 
+
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,16 +30,25 @@ public class Message {
         this.created = created;
     }
 
+    public Message(ResultSet resultSet) {
+        try {
+            this.author = resultSet.getString("author");
+        this.text = resultSet.getString("text");
+        this.created = resultSet.getTimestamp("created").toLocalDateTime();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public Message(int type, String userName) {
         if(type == USER_LOGGED_IN) {
             author = AUTHOR_SYSTEM;
             created = LocalDateTime.now();
-            text = userName + "has entered the chat";
+            text = userName + " has entered the chat";
         }
         else if(type == USER_LOGGED_OUT) {
             author = userName;
             created = LocalDateTime.now();
-            text = userName + "has left the chat";
+            text = userName + " has left the chat";
         }
     }
 
