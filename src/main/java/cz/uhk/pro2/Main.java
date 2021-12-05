@@ -10,26 +10,24 @@ import model.*;
 public class Main {
 
     public static void main(String[] args) {
-        String databaseDriver = "org.apache.derby.jdbc.EmvededDriver";
-        String databaseUrl = "jdbc:derby:ChatClientDb";
+        String databaseDriver = "org.apache.derby.jdbc.EmbeddedDriver";
+        String databaseUrl = "jdbc:derby:ChatClientDB";
 
-
-            ChatClient chatClient = new WebChatClient();
         try{
+            //ChatClient chatClient = new WebChatClient();
+
             DbInitilazer dbInitilazer = new DbInitilazer(databaseDriver, databaseUrl);
             //dbInitilazer.init();
 
             DatabaseOperations databaseOperations = new JdbcDatabaseOperations(databaseDriver, databaseUrl);
-            chatClient = new DatabaseChatClient(databaseOperations);
+            ChatClient chatClient = new DatabaseChatClient(databaseOperations);
+
+            MainFrame mainFrame = new MainFrame(800, 600, chatClient);
+            mainFrame.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        MainFrame mainFrame = new MainFrame(800, 600, chatClient);
-        mainFrame.setVisible(true);
-
-
 
     }
-
 
 }

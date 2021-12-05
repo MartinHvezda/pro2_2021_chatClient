@@ -6,23 +6,22 @@ import model.Message;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseChatClient implements ChatClient {
     private String loggedUser;
-    private List<Message> messages;
-    private List<String> loggedUsers;
+    private final List<Message> messages;
+    private final List<String> loggedUsers;
 
-    private List<ActionListener> listenersLoggedUsersChanged = new ArrayList<>();
-    private List<ActionListener> listenersNewMessages = new ArrayList<>();
-
-
+    private final List<ActionListener> listenersLoggedUsersChanged = new ArrayList<>();
+    private final List<ActionListener> listenersNewMessages = new ArrayList<>();
+    //implementace DatabaseOperations interface
     private DatabaseOperations databaseOperations;
+
     public DatabaseChatClient(DatabaseOperations databaseOperations) {
         this.databaseOperations = databaseOperations;
-        messages = new ArrayList<>();
+        messages = databaseOperations.getMessages();
         loggedUsers = new ArrayList<>();
     }
 
@@ -33,26 +32,25 @@ public class DatabaseChatClient implements ChatClient {
 
     @Override
     public void login(String userName) {
-        messages.add(new Message(Message.USER_LOGGED_IN, userName));
         loggedUser = userName;
         loggedUsers.add(userName);
+        //raiseEventMessagesNewMessages
         raiseEventLoggedUsersChanged();
-        raiseEventNewMessages();
+        addMessage(new Message(Message.USER_LOGGED_IN, userName));
     }
 
     @Override
     public void logout() {
-        messages.add(new Message(Message.USER_LOGGED_OUT, loggedUser));
+        addMessage(new Message(Message.USER_LOGGED_OUT, loggedUser));
         loggedUsers.remove(loggedUser);
         loggedUser = null;
         raiseEventLoggedUsersChanged();
-        raiseEventNewMessages();
+        //raiseEventMessagesNewMessages
     }
 
     @Override
     public void sendMessage(String text) {
-        messages.add(new Message(loggedUser, text));
-        raiseEventNewMessages();
+        addMessage(new Message(loggedUser, text));
     }
 
     @Override
@@ -85,6 +83,11 @@ public class DatabaseChatClient implements ChatClient {
         for(ActionListener al: listenersNewMessages) {
             al.actionPerformed(new ActionEvent(this, 1, "listenersNewMessages"));
         }
+    }
+    private void addMessage(Message message) {
+        messages.add(message);
+        databaseOperations.addMessage(message);
+        raiseEventNewMessages();
     }
 
 }

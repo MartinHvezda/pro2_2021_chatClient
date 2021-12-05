@@ -61,26 +61,23 @@ public class MainFrame extends JFrame {
         panel.add(txtInputName);
 
         btnLogin = new JButton("Login");
-        btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(chatClient.isAuthenticated()){
-                    chatClient.logout();
-                    btnLogin.setText("Login");
-                    txtInputName.setEditable(true);
-                    txtAreaChat.setEnabled(false);
+        btnLogin.addActionListener(e -> {
+            if(chatClient.isAuthenticated()){
+                chatClient.logout();
+                btnLogin.setText("Login");
+                txtInputName.setEditable(true);
+                txtAreaChat.setEnabled(false);
+            }
+            else{
+                String userName = txtInputName.getText();
+                if(userName.length() < 1) {
+                    JOptionPane.showMessageDialog(null, "Enter your user name", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                else{
-                    String userName = txtInputName.getText();
-                    if(userName.length() < 1) {
-                        JOptionPane.showMessageDialog(null, "Enter your user name", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    chatClient.login(userName);
-                    btnLogin.setText("Logout");
-                    txtInputName.setEditable(false);
-                    txtAreaChat.setEnabled(true);
-                }
+                chatClient.login(userName);
+                btnLogin.setText("Logout");
+                txtInputName.setEditable(false);
+                txtAreaChat.setEnabled(true);
             }
         });
         panel.add(btnLogin);
